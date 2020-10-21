@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coc.mapper.CocPersonalMapper">
+    
+    <resultMap type="CocPersonal" id="CocPersonalResult">
+        <result property="pId"    column="p_id"    />
+        <result property="pCode"    column="p_code"    />
+        <result property="pName"    column="p_name"    />
+        <result property="cardId"    column="card_id"    />
+        <result property="pSex"    column="p_sex"    />
+        <result property="birthDate"    column="birth_date"    />
+        <result property="photo"    column="photo"    />
+        <result property="personalProfile"    column="personal_profile"    />
+        <result property="groupPost"    column="group_post"    />
+        <result property="nativePlace"    column="native_place"    />
+        <result property="permanentAddress"    column="permanent_address"    />
+        <result property="postalCode"    column="postal_code"    />
+        <result property="placeUnit"    column="place_unit"    />
+        <result property="unitPosition"    column="unit_position"    />
+        <result property="personalTitle"    column="personal_title"    />
+        <result property="memberValid"    column="member_valid"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectCocPersonalVo">
+        select p_id, p_code, p_name, card_id, p_sex, birth_date, photo, personal_profile, group_post, native_place, permanent_address, postal_code, place_unit, unit_position, personal_title, member_valid, del_flag, create_by, create_time, update_by, update_time, remark from coc_personal
+    </sql>
+
+    <select id="selectCocPersonalList" parameterType="CocPersonal" resultMap="CocPersonalResult">
+        <include refid="selectCocPersonalVo"/>
+        <where>  
+            <if test="pCode != null  and pCode != ''"> and p_code = #{pCode}</if>
+            <if test="pName != null  and pName != ''"> and p_name like concat('%', #{pName}, '%')</if>
+            <if test="cardId != null  and cardId != ''"> and card_id = #{cardId}</if>
+            <if test="pSex != null  and pSex != ''"> and p_sex = #{pSex}</if>
+            <if test="birthDate != null "> and birth_date = #{birthDate}</if>
+            <if test="photo != null  and photo != ''"> and photo = #{photo}</if>
+            <if test="personalProfile != null  and personalProfile != ''"> and personal_profile = #{personalProfile}</if>
+            <if test="groupPost != null  and groupPost != ''"> and group_post = #{groupPost}</if>
+            <if test="nativePlace != null  and nativePlace != ''"> and native_place = #{nativePlace}</if>
+            <if test="permanentAddress != null  and permanentAddress != ''"> and permanent_address = #{permanentAddress}</if>
+            <if test="postalCode != null  and postalCode != ''"> and postal_code = #{postalCode}</if>
+            <if test="placeUnit != null  and placeUnit != ''"> and place_unit = #{placeUnit}</if>
+            <if test="unitPosition != null  and unitPosition != ''"> and unit_position = #{unitPosition}</if>
+            <if test="personalTitle != null  and personalTitle != ''"> and personal_title = #{personalTitle}</if>
+            <if test="memberValid != null  and memberValid != ''"> and member_valid = #{memberValid}</if>
+        </where>
+    </select>
+    
+    <select id="selectCocPersonalById" parameterType="Long" resultMap="CocPersonalResult">
+        <include refid="selectCocPersonalVo"/>
+        where p_id = #{pId}
+    </select>
+    
+     <!--获取个人会员下一个编号 -->
+    <select id="getCocPersonalCode" parameterType="String" resultType="java.lang.String">
+       select count(t.p_code)+1 code from coc_personal t    
+    </select>
+        
+    <insert id="insertCocPersonal" parameterType="CocPersonal" useGeneratedKeys="true" keyProperty="pId">
+        insert into coc_personal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pCode != null  and pCode != ''">p_code,</if>
+            <if test="pName != null  and pName != ''">p_name,</if>
+            <if test="cardId != null  and cardId != ''">card_id,</if>
+            <if test="pSex != null  and pSex != ''">p_sex,</if>
+            <if test="birthDate != null ">birth_date,</if>
+            <if test="photo != null  and photo != ''">photo,</if>
+            <if test="personalProfile != null  and personalProfile != ''">personal_profile,</if>
+            <if test="groupPost != null  and groupPost != ''">group_post,</if>
+            <if test="nativePlace != null  and nativePlace != ''">native_place,</if>
+            <if test="permanentAddress != null  and permanentAddress != ''">permanent_address,</if>
+            <if test="postalCode != null  and postalCode != ''">postal_code,</if>
+            <if test="placeUnit != null  and placeUnit != ''">place_unit,</if>
+            <if test="unitPosition != null  and unitPosition != ''">unit_position,</if>
+            <if test="personalTitle != null  and personalTitle != ''">personal_title,</if>
+            <if test="memberValid != null  and memberValid != ''">member_valid,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pCode != null  and pCode != ''">#{pCode},</if>
+            <if test="pName != null  and pName != ''">#{pName},</if>
+            <if test="cardId != null  and cardId != ''">#{cardId},</if>
+            <if test="pSex != null  and pSex != ''">#{pSex},</if>
+            <if test="birthDate != null ">#{birthDate},</if>
+            <if test="photo != null  and photo != ''">#{photo},</if>
+            <if test="personalProfile != null  and personalProfile != ''">#{personalProfile},</if>
+            <if test="groupPost != null  and groupPost != ''">#{groupPost},</if>
+            <if test="nativePlace != null  and nativePlace != ''">#{nativePlace},</if>
+            <if test="permanentAddress != null  and permanentAddress != ''">#{permanentAddress},</if>
+            <if test="postalCode != null  and postalCode != ''">#{postalCode},</if>
+            <if test="placeUnit != null  and placeUnit != ''">#{placeUnit},</if>
+            <if test="unitPosition != null  and unitPosition != ''">#{unitPosition},</if>
+            <if test="personalTitle != null  and personalTitle != ''">#{personalTitle},</if>
+            <if test="memberValid != null  and memberValid != ''">#{memberValid},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCocPersonal" parameterType="CocPersonal">
+        update coc_personal
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pCode != null  and pCode != ''">p_code = #{pCode},</if>
+            <if test="pName != null  and pName != ''">p_name = #{pName},</if>
+            <if test="cardId != null  and cardId != ''">card_id = #{cardId},</if>
+            <if test="pSex != null  and pSex != ''">p_sex = #{pSex},</if>
+            <if test="birthDate != null ">birth_date = #{birthDate},</if>
+            <if test="photo != null  and photo != ''">photo = #{photo},</if>
+            <if test="personalProfile != null  and personalProfile != ''">personal_profile = #{personalProfile},</if>
+            <if test="groupPost != null  and groupPost != ''">group_post = #{groupPost},</if>
+            <if test="nativePlace != null  and nativePlace != ''">native_place = #{nativePlace},</if>
+            <if test="permanentAddress != null  and permanentAddress != ''">permanent_address = #{permanentAddress},</if>
+            <if test="postalCode != null  and postalCode != ''">postal_code = #{postalCode},</if>
+            <if test="placeUnit != null  and placeUnit != ''">place_unit = #{placeUnit},</if>
+            <if test="unitPosition != null  and unitPosition != ''">unit_position = #{unitPosition},</if>
+            <if test="personalTitle != null  and personalTitle != ''">personal_title = #{personalTitle},</if>
+            <if test="memberValid != null  and memberValid != ''">member_valid = #{memberValid},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where p_id = #{pId}
+    </update>
+
+    <delete id="deleteCocPersonalById" parameterType="Long">
+        delete from coc_personal where p_id = #{pId}
+    </delete>
+
+    <delete id="deleteCocPersonalByIds" parameterType="String">
+        delete from coc_personal where p_id in 
+        <foreach item="pId" collection="array" open="(" separator="," close=")">
+            #{pId}
+        </foreach>
+    </delete>
+    
+</mapper>

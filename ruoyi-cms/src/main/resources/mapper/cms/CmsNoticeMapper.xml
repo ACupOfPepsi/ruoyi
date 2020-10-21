@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cms.mapper.CmsNoticeMapper">
+    
+    <resultMap type="CmsNotice" id="CmsNoticeResult">
+        <result property="id"    column="id"    />
+        <result property="yhid"    column="yhid"    />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="title"    column="title"    />
+        <result property="tags"    column="tags"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="available"    column="available"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectCmsNoticeVo">
+        select id, yhid, publish_time, title, tags, create_time, update_time, available, deleted from cms_notice
+    </sql>
+
+    <select id="selectCmsNoticeList" parameterType="CmsNotice" resultMap="CmsNoticeResult">
+        <include refid="selectCmsNoticeVo"/>
+        <where>  
+            <if test="yhid != null  and yhid != ''"> and yhid = #{yhid}</if>
+            <if test="publishTime != null "> and publish_time = #{publishTime}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="tags != null  and tags != ''"> and tags = #{tags}</if>
+            <if test="available != null "> and available = #{available}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectCmsNoticeById" parameterType="String" resultMap="CmsNoticeResult">
+        <include refid="selectCmsNoticeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCmsNotice" parameterType="CmsNotice">
+        insert into cms_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="yhid != null  and yhid != ''">yhid,</if>
+            <if test="publishTime != null ">publish_time,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="tags != null  and tags != ''">tags,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="available != null ">available,</if>
+            <if test="deleted != null ">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="yhid != null  and yhid != ''">#{yhid},</if>
+            <if test="publishTime != null ">#{publishTime},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="tags != null  and tags != ''">#{tags},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="available != null ">#{available},</if>
+            <if test="deleted != null ">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsNotice" parameterType="CmsNotice">
+        update cms_notice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="yhid != null  and yhid != ''">yhid = #{yhid},</if>
+            <if test="publishTime != null ">publish_time = #{publishTime},</if>
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="tags != null  and tags != ''">tags = #{tags},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="available != null ">available = #{available},</if>
+            <if test="deleted != null ">deleted = #{deleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCmsNoticeById" parameterType="String">
+        delete from cms_notice where id = #{id}
+    </delete>
+
+    <delete id="deleteCmsNoticeByIds" parameterType="String">
+        delete from cms_notice where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

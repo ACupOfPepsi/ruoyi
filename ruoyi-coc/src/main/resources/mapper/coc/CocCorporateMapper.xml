@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coc.mapper.CocCorporateMapper">
+    
+    <resultMap type="CocCorporate" id="CocCorporateResult">
+        <result property="cId"    column="c_id"    />
+        <result property="cCode"    column="c_code"    />
+        <result property="cName"    column="c_name"    />
+        <result property="cUscd"    column="c_uscd"    />
+        <result property="cType"    column="c_type"    />
+        <result property="residence"    column="residence"    />
+        <result property="legalReferee"    column="legal_referee"    />
+        <result property="registerCapital"    column="register_capital"    />
+        <result property="foundDate"    column="found_date"    />
+        <result property="businessTerm"    column="business_term"    />
+        <result property="businessScope"    column="business_scope"    />
+        <result property="issueOffice"    column="issue_office"    />
+        <result property="issueDate"    column="issue_date"    />
+        <result property="registration"    column="registration"    />
+        <result property="memberLevel"    column="member_level"    />
+        <result property="organProfile"    column="organ_profile"    />
+        <result property="businessAddress"    column="business_address"    />
+        <result property="postalCode"    column="postal_code"    />
+        <result property="organPhone"    column="organ_phone"    />
+        <result property="organFax"    column="organ_fax"    />
+        <result property="organOfficial"    column="organ_official"    />
+        <result property="organEmail"    column="organ_email"    />
+        <result property="joinLeader"    column="join_leader"    />
+        <result property="leaderProfile"    column="leader_profile"    />
+        <result property="leaderTel"    column="leader_tel"    />
+        <result property="leaderEmail"    column="leader_email"    />
+        <result property="memberValid"    column="member_valid"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectCocCorporateVo">
+        select c_id, c_code, c_name, c_uscd, c_type, residence, legal_referee, register_capital, found_date, business_term, business_scope, issue_office, issue_date, registration, member_level, organ_profile, business_address, postal_code, organ_phone, organ_fax, organ_official, organ_email, join_leader, leader_profile, leader_tel, leader_email, member_valid, del_flag, create_by, create_time, update_by, update_time, remark from coc_corporate
+    </sql>
+
+    <select id="selectCocCorporateList" parameterType="CocCorporate" resultMap="CocCorporateResult">
+        <include refid="selectCocCorporateVo"/>
+        <where>  
+            <if test="cCode != null  and cCode != ''"> and c_code = #{cCode}</if>
+            <if test="cName != null  and cName != ''"> and c_name like concat('%', #{cName}, '%')</if>
+            <if test="cUscd != null  and cUscd != ''"> and c_uscd = #{cUscd}</if>
+            <if test="cType != null  and cType != ''"> and c_type = #{cType}</if>
+            <if test="residence != null  and residence != ''"> and residence = #{residence}</if>
+            <if test="legalReferee != null  and legalReferee != ''"> and legal_referee = #{legalReferee}</if>
+            <if test="registerCapital != null  and registerCapital != ''"> and register_capital = #{registerCapital}</if>
+            <if test="foundDate != null "> and found_date = #{foundDate}</if>
+            <if test="businessTerm != null  and businessTerm != ''"> and business_term = #{businessTerm}</if>
+            <if test="businessScope != null  and businessScope != ''"> and business_scope = #{businessScope}</if>
+            <if test="issueOffice != null  and issueOffice != ''"> and issue_office = #{issueOffice}</if>
+            <if test="issueDate != null "> and issue_date = #{issueDate}</if>
+            <if test="registration != null  and registration != ''"> and registration = #{registration}</if>
+            <if test="memberLevel != null  and memberLevel != ''"> and member_level = #{memberLevel}</if>
+            <if test="organProfile != null  and organProfile != ''"> and organ_profile = #{organProfile}</if>
+            <if test="businessAddress != null  and businessAddress != ''"> and business_address = #{businessAddress}</if>
+            <if test="postalCode != null  and postalCode != ''"> and postal_code = #{postalCode}</if>
+            <if test="organPhone != null  and organPhone != ''"> and organ_phone = #{organPhone}</if>
+            <if test="organFax != null  and organFax != ''"> and organ_fax = #{organFax}</if>
+            <if test="organOfficial != null  and organOfficial != ''"> and organ_official = #{organOfficial}</if>
+            <if test="organEmail != null  and organEmail != ''"> and organ_email = #{organEmail}</if>
+            <if test="joinLeader != null  and joinLeader != ''"> and join_leader = #{joinLeader}</if>
+            <if test="leaderProfile != null  and leaderProfile != ''"> and leader_profile = #{leaderProfile}</if>
+            <if test="leaderTel != null  and leaderTel != ''"> and leader_tel = #{leaderTel}</if>
+            <if test="leaderEmail != null  and leaderEmail != ''"> and leader_email = #{leaderEmail}</if>
+            <if test="memberValid != null  and memberValid != ''"> and member_valid = #{memberValid}</if>
+        </where>
+    </select>
+    
+    <select id="selectCocCorporateById" parameterType="Long" resultMap="CocCorporateResult">
+        <include refid="selectCocCorporateVo"/>
+        where c_id = #{cId}
+    </select>
+    
+    <!--获取企业下一个编号 -->
+    <select id="getCocCorporateCode" parameterType="String" resultType="java.lang.String">
+       select count(t.c_code)+1 code from coc_corporate t    
+    </select>
+        
+    <insert id="insertCocCorporate" parameterType="CocCorporate" useGeneratedKeys="true" keyProperty="cId">
+        insert into coc_corporate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cCode != null  and cCode != ''">c_code,</if>
+            <if test="cName != null  and cName != ''">c_name,</if>
+            <if test="cUscd != null  and cUscd != ''">c_uscd,</if>
+            <if test="cType != null  and cType != ''">c_type,</if>
+            <if test="residence != null  and residence != ''">residence,</if>
+            <if test="legalReferee != null  and legalReferee != ''">legal_referee,</if>
+            <if test="registerCapital != null  and registerCapital != ''">register_capital,</if>
+            <if test="foundDate != null ">found_date,</if>
+            <if test="businessTerm != null  and businessTerm != ''">business_term,</if>
+            <if test="businessScope != null  and businessScope != ''">business_scope,</if>
+            <if test="issueOffice != null  and issueOffice != ''">issue_office,</if>
+            <if test="issueDate != null ">issue_date,</if>
+            <if test="registration != null  and registration != ''">registration,</if>
+            <if test="memberLevel != null  and memberLevel != ''">member_level,</if>
+            <if test="organProfile != null  and organProfile != ''">organ_profile,</if>
+            <if test="businessAddress != null  and businessAddress != ''">business_address,</if>
+            <if test="postalCode != null  and postalCode != ''">postal_code,</if>
+            <if test="organPhone != null  and organPhone != ''">organ_phone,</if>
+            <if test="organFax != null  and organFax != ''">organ_fax,</if>
+            <if test="organOfficial != null  and organOfficial != ''">organ_official,</if>
+            <if test="organEmail != null  and organEmail != ''">organ_email,</if>
+            <if test="joinLeader != null  and joinLeader != ''">join_leader,</if>
+            <if test="leaderProfile != null  and leaderProfile != ''">leader_profile,</if>
+            <if test="leaderTel != null  and leaderTel != ''">leader_tel,</if>
+            <if test="leaderEmail != null  and leaderEmail != ''">leader_email,</if>
+            <if test="memberValid != null  and memberValid != ''">member_valid,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cCode != null  and cCode != ''">#{cCode},</if>
+            <if test="cName != null  and cName != ''">#{cName},</if>
+            <if test="cUscd != null  and cUscd != ''">#{cUscd},</if>
+            <if test="cType != null  and cType != ''">#{cType},</if>
+            <if test="residence != null  and residence != ''">#{residence},</if>
+            <if test="legalReferee != null  and legalReferee != ''">#{legalReferee},</if>
+            <if test="registerCapital != null  and registerCapital != ''">#{registerCapital},</if>
+            <if test="foundDate != null ">#{foundDate},</if>
+            <if test="businessTerm != null  and businessTerm != ''">#{businessTerm},</if>
+            <if test="businessScope != null  and businessScope != ''">#{businessScope},</if>
+            <if test="issueOffice != null  and issueOffice != ''">#{issueOffice},</if>
+            <if test="issueDate != null ">#{issueDate},</if>
+            <if test="registration != null  and registration != ''">#{registration},</if>
+            <if test="memberLevel != null  and memberLevel != ''">#{memberLevel},</if>
+            <if test="organProfile != null  and organProfile != ''">#{organProfile},</if>
+            <if test="businessAddress != null  and businessAddress != ''">#{businessAddress},</if>
+            <if test="postalCode != null  and postalCode != ''">#{postalCode},</if>
+            <if test="organPhone != null  and organPhone != ''">#{organPhone},</if>
+            <if test="organFax != null  and organFax != ''">#{organFax},</if>
+            <if test="organOfficial != null  and organOfficial != ''">#{organOfficial},</if>
+            <if test="organEmail != null  and organEmail != ''">#{organEmail},</if>
+            <if test="joinLeader != null  and joinLeader != ''">#{joinLeader},</if>
+            <if test="leaderProfile != null  and leaderProfile != ''">#{leaderProfile},</if>
+            <if test="leaderTel != null  and leaderTel != ''">#{leaderTel},</if>
+            <if test="leaderEmail != null  and leaderEmail != ''">#{leaderEmail},</if>
+            <if test="memberValid != null  and memberValid != ''">#{memberValid},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCocCorporate" parameterType="CocCorporate">
+        update coc_corporate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cCode != null  and cCode != ''">c_code = #{cCode},</if>
+            <if test="cName != null  and cName != ''">c_name = #{cName},</if>
+            <if test="cUscd != null  and cUscd != ''">c_uscd = #{cUscd},</if>
+            <if test="cType != null  and cType != ''">c_type = #{cType},</if>
+            <if test="residence != null  and residence != ''">residence = #{residence},</if>
+            <if test="legalReferee != null  and legalReferee != ''">legal_referee = #{legalReferee},</if>
+            <if test="registerCapital != null  and registerCapital != ''">register_capital = #{registerCapital},</if>
+            <if test="foundDate != null ">found_date = #{foundDate},</if>
+            <if test="businessTerm != null  and businessTerm != ''">business_term = #{businessTerm},</if>
+            <if test="businessScope != null  and businessScope != ''">business_scope = #{businessScope},</if>
+            <if test="issueOffice != null  and issueOffice != ''">issue_office = #{issueOffice},</if>
+            <if test="issueDate != null ">issue_date = #{issueDate},</if>
+            <if test="registration != null  and registration != ''">registration = #{registration},</if>
+            <if test="memberLevel != null  and memberLevel != ''">member_level = #{memberLevel},</if>
+            <if test="organProfile != null  and organProfile != ''">organ_profile = #{organProfile},</if>
+            <if test="businessAddress != null  and businessAddress != ''">business_address = #{businessAddress},</if>
+            <if test="postalCode != null  and postalCode != ''">postal_code = #{postalCode},</if>
+            <if test="organPhone != null  and organPhone != ''">organ_phone = #{organPhone},</if>
+            <if test="organFax != null  and organFax != ''">organ_fax = #{organFax},</if>
+            <if test="organOfficial != null  and organOfficial != ''">organ_official = #{organOfficial},</if>
+            <if test="organEmail != null  and organEmail != ''">organ_email = #{organEmail},</if>
+            <if test="joinLeader != null  and joinLeader != ''">join_leader = #{joinLeader},</if>
+            <if test="leaderProfile != null  and leaderProfile != ''">leader_profile = #{leaderProfile},</if>
+            <if test="leaderTel != null  and leaderTel != ''">leader_tel = #{leaderTel},</if>
+            <if test="leaderEmail != null  and leaderEmail != ''">leader_email = #{leaderEmail},</if>
+            <if test="memberValid != null  and memberValid != ''">member_valid = #{memberValid},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where c_id = #{cId}
+    </update>
+
+    <delete id="deleteCocCorporateById" parameterType="Long">
+        delete from coc_corporate where c_id = #{cId}
+    </delete>
+
+    <delete id="deleteCocCorporateByIds" parameterType="String">
+        delete from coc_corporate where c_id in 
+        <foreach item="cId" collection="array" open="(" separator="," close=")">
+            #{cId}
+        </foreach>
+    </delete>
+    
+</mapper>

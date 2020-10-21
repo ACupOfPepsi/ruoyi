@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coc.mapper.CocGroupCpMapper">
+    
+    <resultMap type="CocGroupCp" id="CocGroupCpResult">
+        <result property="gCode"    column="g_code"    />
+        <result property="cpCode"    column="cp_code"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectCocGroupCpVo">
+        select g_code, cp_code, status from coc_group_cp
+    </sql>
+
+    <select id="selectCocGroupCpList" parameterType="CocGroupCp" resultMap="CocGroupCpResult">
+        <include refid="selectCocGroupCpVo"/>
+        <where>  
+            <if test="gCode != null  and gCode != ''"> and g_code = #{gCode}</if>
+            <if test="cpCode != null  and cpCode != ''"> and cp_code = #{cpCode}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectCocGroupCpById" parameterType="String" resultMap="CocGroupCpResult">
+        <include refid="selectCocGroupCpVo"/>
+        where g_code = #{gCode}
+    </select>
+        
+    <insert id="insertCocGroupCp" parameterType="CocGroupCp">
+        insert into coc_group_cp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gCode != null  and gCode != ''">g_code,</if>
+            <if test="cpCode != null  and cpCode != ''">cp_code,</if>
+            <if test="status != null  and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="gCode != null  and gCode != ''">#{gCode},</if>
+            <if test="cpCode != null  and cpCode != ''">#{cpCode},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCocGroupCp" parameterType="CocGroupCp">
+        update coc_group_cp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cpCode != null  and cpCode != ''">cp_code = #{cpCode},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+        </trim>
+        where g_code = #{gCode}
+    </update>
+
+    <delete id="deleteCocGroupCpById" parameterType="String">
+        delete from coc_group_cp where g_code = #{gCode}
+    </delete>
+
+    <delete id="deleteCocGroupCpByIds" parameterType="String">
+        delete from coc_group_cp where g_code in 
+        <foreach item="gCode" collection="array" open="(" separator="," close=")">
+            #{gCode}
+        </foreach>
+    </delete>
+    
+</mapper>

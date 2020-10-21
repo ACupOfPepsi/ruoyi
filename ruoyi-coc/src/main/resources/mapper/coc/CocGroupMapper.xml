@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coc.mapper.CocGroupMapper">
+    
+    <resultMap type="CocGroup" id="CocGroupResult">
+        <result property="gId"    column="g_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="gCode"    column="g_code"    />
+        <result property="organName"    column="organ_name"    />
+        <result property="groupNature"    column="group_nature"    />
+        <result property="businessRange"    column="business_range"    />
+        <result property="registerAddress"    column="register_address"    />
+        <result property="gUscd"    column="g_uscd"    />
+        <result property="effectiveDate"    column="effective_date"    />
+        <result property="legalReferee"    column="legal_referee"    />
+        <result property="actionArea"    column="action_area"    />
+        <result property="registerCapital"    column="register_capital"    />
+        <result property="businessUnit"    column="business_unit"    />
+        <result property="issueOffice"    column="issue_office"    />
+        <result property="issueDate"    column="issue_date"    />
+        <result property="officialAddress"    column="official_address"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="fax"    column="fax"    />
+        <result property="mailbox"    column="mailbox"    />
+        <result property="status"    column="status"    />
+        <result property="groupLeader"    column="group_leader"    />
+        <result property="leaderProfile"    column="leader_profile"    />
+        <result property="leaderTel"    column="leader_tel"    />
+        <result property="leaderEmail"    column="leader_email"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectCocGroupVo">
+        select g_id, parent_id, ancestors, g_code, organ_name, group_nature, business_range, register_address, g_uscd, effective_date, legal_referee, action_area, register_capital, business_unit, issue_office, issue_date, official_address, telephone, fax, mailbox, status, group_leader, leader_profile, leader_tel, leader_email, del_flag, create_by, create_time, update_by, update_time, remark from coc_group
+    </sql>
+
+    <select id="selectCocGroupList" parameterType="CocGroup" resultMap="CocGroupResult">
+        <include refid="selectCocGroupVo"/>
+        <where>  
+            <if test="gCode != null  and gCode != ''"> and g_code = #{gCode}</if>
+            <if test="organName != null  and organName != ''"> and organ_name like concat('%', #{organName}, '%')</if>
+            <if test="groupNature != null  and groupNature != ''"> and group_nature = #{groupNature}</if>
+            <if test="businessRange != null  and businessRange != ''"> and business_range = #{businessRange}</if>
+            <if test="registerAddress != null  and registerAddress != ''"> and register_address = #{registerAddress}</if>
+            <if test="gUscd != null  and gUscd != ''"> and g_uscd = #{gUscd}</if>
+            <if test="effectiveDate != null  and effectiveDate != ''"> and effective_date = #{effectiveDate}</if>
+            <if test="legalReferee != null  and legalReferee != ''"> and legal_referee = #{legalReferee}</if>
+            <if test="actionArea != null  and actionArea != ''"> and action_area = #{actionArea}</if>
+            <if test="registerCapital != null  and registerCapital != ''"> and register_capital = #{registerCapital}</if>
+            <if test="businessUnit != null  and businessUnit != ''"> and business_unit = #{businessUnit}</if>
+            <if test="issueOffice != null  and issueOffice != ''"> and issue_office = #{issueOffice}</if>
+            <if test="issueDate != null "> and issue_date = #{issueDate}</if>
+            <if test="officialAddress != null  and officialAddress != ''"> and official_address = #{officialAddress}</if>
+            <if test="telephone != null  and telephone != ''"> and telephone = #{telephone}</if>
+            <if test="fax != null  and fax != ''"> and fax = #{fax}</if>
+            <if test="mailbox != null  and mailbox != ''"> and mailbox = #{mailbox}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="groupLeader != null  and groupLeader != ''"> and group_leader = #{groupLeader}</if>
+            <if test="leaderProfile != null  and leaderProfile != ''"> and leader_profile = #{leaderProfile}</if>
+            <if test="leaderTel != null  and leaderTel != ''"> and leader_tel = #{leaderTel}</if>
+            <if test="leaderEmail != null  and leaderEmail != ''"> and leader_email = #{leaderEmail}</if>
+        </where>
+    </select>
+    
+    <select id="selectCocGroupById" parameterType="Long" resultMap="CocGroupResult">
+        <include refid="selectCocGroupVo"/>
+        where g_id = #{gId}
+    </select>
+    
+    <!--获取团体下一个编号 -->
+    <select id="getCocGroupCode" parameterType="String" resultType="java.lang.String">
+       select count(t.g_code)+1 code from coc_group t    
+    </select>
+    
+   	<!--  获取待办事项 -->
+    <select id="selectCoCToDo" parameterType="String" resultType="java.util.Map">
+		select '团体' type,t.g_id id,t.g_code code,t.g_code,null c_code,null p_code,t.organ_name name,t.status,t.create_time,'新团体注册申请' check_info from coc_group t where t.del_flag=0 and t.status=1
+		UNION all
+		select '企业' type,t.c_id id,t.c_code code,gc.g_code,t.c_code,null p_code,t.c_name name,gc.status,t.create_time,'企业会员注册申请' check_info from coc_corporate t LEFT JOIN coc_group_cp gc on t.c_code= gc.cp_code where t.del_flag=0 and gc.status=1
+		UNION all
+		select '个人' type,t.p_id,t.p_code code,gc.g_code,null c_code,t.p_code,t.p_name name,gc.status,t.create_time,'个人会员注册申请' check_info from coc_personal t LEFT JOIN coc_group_cp gc on t.p_code= gc.cp_code where t.del_flag=0 and gc.status=1
+    </select>
+    
+    <!--  获取社会团体tree -->
+    <select id="selectCoCTree" parameterType="String" resultType="java.util.Map">
+		select '团体' type,t.g_code code,0 g_code,t.organ_name name,t.status from coc_group t where t.del_flag=0
+		UNION all
+		select '企业' type,t.c_code code,gc.g_code,t.c_name name,gc.status from coc_corporate t LEFT JOIN coc_group_cp gc on t.c_code= gc.cp_code where t.del_flag=0
+		UNION all
+		select '个人' type,t.p_code code,gc.g_code,t.p_name name,gc.status from coc_personal t LEFT JOIN coc_group_cp gc on t.p_code= gc.cp_code where t.del_flag=0 
+    </select>
+    
+    <!--  获取社会团体tree关联数据 -->
+    <select id="selectCoCInfo" parameterType="String" resultType="java.util.Map">
+		select '团体' type,t.g_id id,t.g_code code,t.g_code,null c_code,null p_code,t.organ_name name,t.status,t.create_time,ug.role_code,u.login_name from coc_group t LEFT JOIN coc_user_gcp ug on t.g_code=ug.gcp_code LEFT JOIN sys_user u on ug.user_code=u.user_code  where t.del_flag=0 and t.status=1
+		UNION all
+		select '企业' type,t.c_id id,t.c_code code,gc.g_code,t.c_code,null p_code,t.c_name name,gc.status,t.create_time,ug.role_code,u.login_name from coc_corporate t LEFT JOIN coc_group_cp gc on t.c_code= gc.cp_code LEFT JOIN coc_user_gcp ug on t.c_code=ug.gcp_code LEFT JOIN sys_user u on ug.user_code=u.user_code where t.del_flag=0 and gc.status=1
+		UNION all
+		select '个人' type,t.p_id,t.p_code code,gc.g_code,null c_code,t.p_code,t.p_name,gc.status,t.create_time,ug.role_code,u.login_name from coc_personal t LEFT JOIN coc_group_cp gc on t.p_code= gc.cp_code LEFT JOIN coc_user_gcp ug on t.p_code=ug.gcp_code LEFT JOIN sys_user u on ug.user_code=u.user_code where t.del_flag=0 and gc.status=1 
+    </select>
+    
+    <insert id="insertCocGroup" parameterType="CocGroup" useGeneratedKeys="true" keyProperty="gId">
+        insert into coc_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        	<if test="parentId != null">parent_id,</if>
+ 			<if test="ancestors != null and ancestors != ''">ancestors,</if>
+            <if test="gCode != null  and gCode != ''">g_code,</if>
+            <if test="organName != null  and organName != ''">organ_name,</if>
+            <if test="groupNature != null  and groupNature != ''">group_nature,</if>
+            <if test="businessRange != null  and businessRange != ''">business_range,</if>
+            <if test="registerAddress != null  and registerAddress != ''">register_address,</if>
+            <if test="gUscd != null  and gUscd != ''">g_uscd,</if>
+            <if test="effectiveDate != null  and effectiveDate != ''">effective_date,</if>
+            <if test="legalReferee != null  and legalReferee != ''">legal_referee,</if>
+            <if test="actionArea != null  and actionArea != ''">action_area,</if>
+            <if test="registerCapital != null  and registerCapital != ''">register_capital,</if>
+            <if test="businessUnit != null  and businessUnit != ''">business_unit,</if>
+            <if test="issueOffice != null  and issueOffice != ''">issue_office,</if>
+            <if test="issueDate != null ">issue_date,</if>
+            <if test="officialAddress != null  and officialAddress != ''">official_address,</if>
+            <if test="telephone != null  and telephone != ''">telephone,</if>
+            <if test="fax != null  and fax != ''">fax,</if>
+            <if test="mailbox != null  and mailbox != ''">mailbox,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="groupLeader != null  and groupLeader != ''">group_leader,</if>
+            <if test="leaderProfile != null  and leaderProfile != ''">leader_profile,</if>
+            <if test="leaderTel != null  and leaderTel != ''">leader_tel,</if>
+            <if test="leaderEmail != null  and leaderEmail != ''">leader_email,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        	<if test="parentId != null">#{parentId},</if>
+ 			<if test="ancestors != null and ancestors != ''">#{ancestors},</if>
+            <if test="gCode != null  and gCode != ''">#{gCode},</if>
+            <if test="organName != null  and organName != ''">#{organName},</if>
+            <if test="groupNature != null  and groupNature != ''">#{groupNature},</if>
+            <if test="businessRange != null  and businessRange != ''">#{businessRange},</if>
+            <if test="registerAddress != null  and registerAddress != ''">#{registerAddress},</if>
+            <if test="gUscd != null  and gUscd != ''">#{gUscd},</if>
+            <if test="effectiveDate != null  and effectiveDate != ''">#{effectiveDate},</if>
+            <if test="legalReferee != null  and legalReferee != ''">#{legalReferee},</if>
+            <if test="actionArea != null  and actionArea != ''">#{actionArea},</if>
+            <if test="registerCapital != null  and registerCapital != ''">#{registerCapital},</if>
+            <if test="businessUnit != null  and businessUnit != ''">#{businessUnit},</if>
+            <if test="issueOffice != null  and issueOffice != ''">#{issueOffice},</if>
+            <if test="issueDate != null ">#{issueDate},</if>
+            <if test="officialAddress != null  and officialAddress != ''">#{officialAddress},</if>
+            <if test="telephone != null  and telephone != ''">#{telephone},</if>
+            <if test="fax != null  and fax != ''">#{fax},</if>
+            <if test="mailbox != null  and mailbox != ''">#{mailbox},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="groupLeader != null  and groupLeader != ''">#{groupLeader},</if>
+            <if test="leaderProfile != null  and leaderProfile != ''">#{leaderProfile},</if>
+            <if test="leaderTel != null  and leaderTel != ''">#{leaderTel},</if>
+            <if test="leaderEmail != null  and leaderEmail != ''">#{leaderEmail},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCocGroup" parameterType="CocGroup">
+        update coc_group
+        <trim prefix="SET" suffixOverrides=",">
+        	<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+ 			<if test="ancestors != null and ancestors != ''">ancestors = #{ancestors},</if>
+            <if test="gCode != null  and gCode != ''">g_code = #{gCode},</if>
+            <if test="organName != null  and organName != ''">organ_name = #{organName},</if>
+            <if test="groupNature != null  and groupNature != ''">group_nature = #{groupNature},</if>
+            <if test="businessRange != null  and businessRange != ''">business_range = #{businessRange},</if>
+            <if test="registerAddress != null  and registerAddress != ''">register_address = #{registerAddress},</if>
+            <if test="gUscd != null  and gUscd != ''">g_uscd = #{gUscd},</if>
+            <if test="effectiveDate != null  and effectiveDate != ''">effective_date = #{effectiveDate},</if>
+            <if test="legalReferee != null  and legalReferee != ''">legal_referee = #{legalReferee},</if>
+            <if test="actionArea != null  and actionArea != ''">action_area = #{actionArea},</if>
+            <if test="registerCapital != null  and registerCapital != ''">register_capital = #{registerCapital},</if>
+            <if test="businessUnit != null  and businessUnit != ''">business_unit = #{businessUnit},</if>
+            <if test="issueOffice != null  and issueOffice != ''">issue_office = #{issueOffice},</if>
+            <if test="issueDate != null ">issue_date = #{issueDate},</if>
+            <if test="officialAddress != null  and officialAddress != ''">official_address = #{officialAddress},</if>
+            <if test="telephone != null  and telephone != ''">telephone = #{telephone},</if>
+            <if test="fax != null  and fax != ''">fax = #{fax},</if>
+            <if test="mailbox != null  and mailbox != ''">mailbox = #{mailbox},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="groupLeader != null  and groupLeader != ''">group_leader = #{groupLeader},</if>
+            <if test="leaderProfile != null  and leaderProfile != ''">leader_profile = #{leaderProfile},</if>
+            <if test="leaderTel != null  and leaderTel != ''">leader_tel = #{leaderTel},</if>
+            <if test="leaderEmail != null  and leaderEmail != ''">leader_email = #{leaderEmail},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where g_id = #{gId}
+    </update>
+
+    <delete id="deleteCocGroupById" parameterType="Long">
+        delete from coc_group where g_id = #{gId}
+    </delete>
+
+    <delete id="deleteCocGroupByIds" parameterType="String">
+        delete from coc_group where g_id in 
+        <foreach item="gId" collection="array" open="(" separator="," close=")">
+            #{gId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.coc.mapper.CocUserGcpMapper">
+    
+    <resultMap type="CocUserGcp" id="CocUserGcpResult">
+        <result property="userCode"    column="user_code"    />
+        <result property="gcpCode"    column="gcp_code"    />
+        <result property="roleCode"    column="role_code"    />
+    </resultMap>
+
+    <sql id="selectCocUserGcpVo">
+        select user_code, gcp_code, role_code from coc_user_gcp
+    </sql>
+
+    <select id="selectCocUserGcpList" parameterType="CocUserGcp" resultMap="CocUserGcpResult">
+        <include refid="selectCocUserGcpVo"/>
+        <where>  
+            <if test="userCode != null "> and user_code = #{userCode}</if>
+            <if test="gcpCode != null  and gcpCode != ''"> and gcp_code = #{gcpCode}</if>
+            <if test="roleCode != null  and roleCode != ''"> and role_code = #{roleCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectCocUserGcpById" parameterType="Long" resultMap="CocUserGcpResult">
+        <include refid="selectCocUserGcpVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertCocUserGcp" parameterType="CocUserGcp">
+        insert into coc_user_gcp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userCode != null and userCode != ''">user_code,</if>
+            <if test="gcpCode != null  and gcpCode != ''">gcp_code,</if>
+            <if test="roleCode != null  and roleCode != ''">role_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userCode != null and userCode != ''">#{userCode},</if>
+            <if test="gcpCode != null  and gcpCode != ''">#{gcpCode},</if>
+            <if test="roleCode != null  and roleCode != ''">#{roleCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCocUserGcp" parameterType="CocUserGcp">
+        update coc_user_gcp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="gcpCode != null  and gcpCode != ''">gcp_code = #{gcpCode},</if>
+            <if test="roleCode != null  and roleCode != ''">role_code = #{roleCode},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteCocUserGcpById" parameterType="Long">
+        delete from coc_user_gcp where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteCocUserGcpByIds" parameterType="String">
+        delete from coc_user_gcp where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+    
+</mapper>

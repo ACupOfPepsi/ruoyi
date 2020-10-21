@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改社会团体信息')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-group-edit" th:object="${cocGroup}">
+            <input name="gId" th:field="*{gId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">社会团体编号：</label>
+                <div class="col-sm-8">
+                    <input name="gCode" th:field="*{gCode}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机构名称：</label>
+                <div class="col-sm-8">
+                    <input name="organName" th:field="*{organName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">团体性质：</label>
+                <div class="col-sm-8">
+                    <input name="groupNature" th:field="*{groupNature}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">业务范围：</label>
+                <div class="col-sm-8">
+                    <input name="businessRange" th:field="*{businessRange}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">注册地址：</label>
+                <div class="col-sm-8">
+                    <input name="registerAddress" th:field="*{registerAddress}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">统一社会信用代码：</label>
+                <div class="col-sm-8">
+                    <input name="gUscd" th:field="*{gUscd}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">有效日期：</label>
+                <div class="col-sm-8">
+                    <input name="effectiveDate" th:field="*{effectiveDate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">法定代表人：</label>
+                <div class="col-sm-8">
+                    <input name="legalReferee" th:field="*{legalReferee}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">活动区域：</label>
+                <div class="col-sm-8">
+                    <input name="actionArea" th:field="*{actionArea}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">注册资金：</label>
+                <div class="col-sm-8">
+                    <input name="registerCapital" th:field="*{registerCapital}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">业务主管单位：</label>
+                <div class="col-sm-8">
+                    <input name="businessUnit" th:field="*{businessUnit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发证机关：</label>
+                <div class="col-sm-8">
+                    <input name="issueOffice" th:field="*{issueOffice}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发证日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="issueDate" th:value="${#dates.format(cocGroup.issueDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">官网地址：</label>
+                <div class="col-sm-8">
+                    <input name="officialAddress" th:field="*{officialAddress}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系电话：</label>
+                <div class="col-sm-8">
+                    <input name="telephone" th:field="*{telephone}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">传真：</label>
+                <div class="col-sm-8">
+                    <input name="fax" th:field="*{fax}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱：</label>
+                <div class="col-sm-8">
+                    <input name="mailbox" th:field="*{mailbox}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="status" value="">
+                        <label th:for="status" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">团体负责人：</label>
+                <div class="col-sm-8">
+                    <input name="groupLeader" th:field="*{groupLeader}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负责人简介：</label>
+                <div class="col-sm-8">
+                    <input name="leaderProfile" th:field="*{leaderProfile}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负责人电话：</label>
+                <div class="col-sm-8">
+                    <input name="leaderTel" th:field="*{leaderTel}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负责人邮箱：</label>
+                <div class="col-sm-8">
+                    <input name="leaderEmail" th:field="*{leaderEmail}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "coc/group";
+        $("#form-group-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-group-edit').serialize());
+            }
+        }
+
+        $("input[name='issueDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

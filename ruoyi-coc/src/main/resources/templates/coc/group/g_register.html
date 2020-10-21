@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('申请社会团体注册')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-group-add">
+           <!--  <div class="form-group">    
+                <label class="col-sm-3 control-label">社会团体编号：</label>
+                <div class="col-sm-8">
+                    <input name="gCode" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>机构名称：</label>
+                <div class="col-sm-8">
+                    <input name="organName" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">团体性质：</label>
+                <div class="col-sm-8">
+                    <input name="groupNature" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">业务范围：</label>
+                <div class="col-sm-8">
+                    <input name="businessRange" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">注册地址：</label>
+                <div class="col-sm-8">
+                    <input name="registerAddress" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">统一社会信用代码：</label>
+                <div class="col-sm-8">
+                    <input name="gUscd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">有效日期：</label>
+                <div class="col-sm-8">
+                    <input name="effectiveDate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">法定代表人：</label>
+                <div class="col-sm-8">
+                    <input name="legalReferee" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">活动区域：</label>
+                <div class="col-sm-8">
+                    <input name="actionArea" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">注册资金：</label>
+                <div class="col-sm-8">
+                    <input name="registerCapital" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">业务主管单位：</label>
+                <div class="col-sm-8">
+                    <input name="businessUnit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发证机关：</label>
+                <div class="col-sm-8">
+                    <input name="issueOffice" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发证日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="issueDate" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">官网地址：</label>
+                <div class="col-sm-8">
+                    <input name="officialAddress" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系电话：</label>
+                <div class="col-sm-8">
+                    <input name="telephone" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">传真：</label>
+                <div class="col-sm-8">
+                    <input name="fax" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱：</label>
+                <div class="col-sm-8">
+                    <input name="mailbox" class="form-control" type="text">
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="status" value="">
+                        <label th:for="status" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">团体负责人：</label>
+                <div class="col-sm-8">
+                    <input name="groupLeader" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负责人简介：</label>
+                <div class="col-sm-8">
+                    <input name="leaderProfile" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负责人电话：</label>
+                <div class="col-sm-8">
+                    <input name="leaderTel" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负责人邮箱：</label>
+                <div class="col-sm-8">
+                    <input name="leaderEmail" class="form-control" type="text">
+                </div>
+            </div>
+           <div class="form-group">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>登录账号：</label>
+                <div class="col-sm-8">
+                    <input id="loginName" name="loginName" placeholder="请输入登录账号" class="form-control" type="text" maxlength="30" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>登录密码：</label>
+                <div class="col-sm-8">
+                    <input name="password" placeholder="请输入登录密码" class="form-control" type="password" th:value="${@config.getKey('sys.user.initPassword')}" required>
+                </div>
+            </div>
+             <div class="form-group">
+                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>手机号码：</label>
+                 <div class="col-sm-8">
+                     <input id="phonenumber" name="phonenumber" placeholder="请输入手机号码" class="form-control isPhone" type="text" maxlength="11" required>
+                 </div>
+             </div>
+             <div class="form-group">
+                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>邮箱：</label>
+                 <div class="col-sm-8">
+                     <input id="email" name="email" class="form-control email" type="text" maxlength="50" placeholder="请输入邮箱" required>
+                 </div>
+             </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">删除标志：</label>
+                <div class="col-sm-8">
+                    <input name="delFlag" class="form-control" type="text">
+                </div>
+            </div> -->
+        </form>
+    </div>
+    <div class="row form-group">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>提交</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="window.close()"><i class="fa fa-close"></i>关 闭 </button>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "coc/group"
+        $("#form-group-add").validate({
+        	onkeyup: false,
+        	rules:{
+        		loginName:{
+        			minlength: 2,
+        			maxlength: 20,
+        			remote: {
+                        url: prefix + "/checkLoginNameUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	"loginName": function() {
+                                return $.common.trim($("#loginName").val());
+                            }
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        		password:{
+        			minlength: 6,
+        			maxlength: 20
+        		},
+        	},
+        	messages: {
+                "loginName": {
+                    remote: "用户已经存在"
+                }
+            },
+            focusCleanup: true
+        });
+        // 注册
+       function register(url, data, callback) {
+        	var config = {
+    	        url: url,
+    	        type: "post",
+    	        dataType: "json",
+    	        data: data,
+    	        beforeSend: function () {
+    	        	$.modal.loading("正在处理中，请稍后...");
+    	        	$.modal.disable();
+    	        },
+    	        success: function(result) {
+    	        	layer.alert("注册成功", {
+            	        icon: $.modal.icon("success"),
+            	        title: "系统提示",
+            	        btn: ['确认'],
+            	        btnclass: ['btn btn-primary'],
+            	    },function(index){
+	    	        	//window.close();
+	    	        	window.location.href="/blog";   
+            	    });
+    	        }
+    	    };
+    	    $.ajax(config)
+        }
+
+       function submitHandler() {
+            if ($.validate.form()) {
+            	register(prefix + "/register", $('#form-group-add').serialize());
+            }
+        }
+
+        $("input[name='issueDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>
